@@ -1,0 +1,287 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zaniedzapact AI</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0f172a;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* HEADER */
+.header {
+    background: #020617;
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
+}
+.sub {
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+/* IMAGE */
+.header-img {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+}
+
+/* CHAT */
+.chat-box {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+/* BUBBLE */
+.msg {
+    margin: 10px 0;
+    padding: 10px 15px;
+    border-radius: 12px;
+    max-width: 70%;
+}
+
+/* USER KIRI */
+.user {
+    background: #1e293b;
+}
+
+/* BOT KANAN */
+.bot {
+    background: #22c55e;
+    margin-left: auto;
+}
+
+/* INPUT */
+.input-box {
+    display: flex;
+    padding: 10px;
+    background: #020617;
+}
+
+input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+}
+
+button {
+    margin-left: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background: #22c55e;
+    color: white;
+    cursor: pointer;
+}
+
+/* HOME */
+.home-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #22c55e;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="home-btn" onclick="window.location.href='index.html'">🏠 Home</div>
+
+<div class="header">
+    🤖 Zaniedzapact AI
+    <div class="sub">Model: ZNT_0.1</div>
+</div>
+
+<img src="zaniedzapactai.jpeg" class="header-img">
+
+<div id="chat" class="chat-box"></div>
+
+<div class="input-box">
+    <input type="text" id="input" placeholder="Tanya sesuatu...">
+    <button onclick="send()">Kirim</button>
+</div>
+
+<script>
+
+// ===== INTRO TEXT =====
+let introTexts = [
+    "Ada yang bisa saya bantu hari ini?",
+    "Ingin tahu seputar Zaniedzapact?",
+    "Silakan bertanya...",
+    "Saya siap membantu 🗿"
+];
+
+let introDiv;
+
+function showIntro() {
+    let chat = document.getElementById("chat");
+
+    introDiv = document.createElement("div");
+    introDiv.className = "msg bot";
+    introDiv.style.opacity = "0.6";
+
+    chat.appendChild(introDiv);
+
+    let i = 0;
+    setInterval(() => {
+        if (introDiv) {
+            introDiv.innerText = introTexts[i];
+            i = (i + 1) % introTexts.length;
+        }
+    }, 2000);
+}
+
+// ===== KIRIM =====
+function send() {
+    let input = document.getElementById("input");
+    let text = input.value;
+
+    if (!text.trim()) return;
+
+    // HAPUS INTRO
+    if (introDiv) {
+        introDiv.remove();
+        introDiv = null;
+    }
+
+    addMessage(text, "user");
+
+    let reply = getReply(text);
+
+    setTimeout(() => {
+        addMessage(reply, "bot");
+    }, 300);
+
+    input.value = "";
+}
+
+// ===== TAMBAH CHAT =====
+function addMessage(text, type) {
+    let chat = document.getElementById("chat");
+
+    let div = document.createElement("div");
+    div.className = "msg " + type;
+    div.innerText = text;
+
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+}
+
+// ===== AI OTAK LU (AMAN GA DIUBAH) =====
+function getReply(input) {
+
+    let text = input.toLowerCase().trim();
+
+    let kasar = [
+        "kontol","anjing","bangsat","babi","tolol","goblok","anjir",
+        "tai","bokep","nyoli","coli","titit","monyet","peler","bego"
+    ];
+
+    if (kasar.some(k => text.includes(k))) {
+        let respon = [
+            "🗿 Heh, jaga dulu ketikan lu.",
+            "😐 Santai bro, ga usah kasar.",
+            "🤖 Bahasa diperbaiki dulu ya.",
+            "😏 Jangan barbar juga.",
+            "🗿 Sistem mendeteksi toxic."
+        ];
+        return respon[Math.floor(Math.random()*respon.length)];
+    }
+
+    let exp = text.replace(/[^0-9+\-*/:.]/g, "").replace(/:/g,"/");
+
+    if (/^\d+[+\-*/]\d+$/.test(exp)) {
+        let op = exp.match(/[+\-*/]/)[0];
+        let [a, b] = exp.split(op).map(Number);
+
+        let hasil;
+        if (op === "+") hasil = a + b;
+        if (op === "-") hasil = a - b;
+        if (op === "*") hasil = a * b;
+        if (op === "/") hasil = b !== 0 ? a / b : "Tidak bisa dibagi 0 🗿";
+
+        return "🧠 Hasilnya: " + hasil;
+    }
+
+    if (text.includes("halo") || text.includes("hai") ||text.includes("hi") || text.includes("tes")) {
+        return "Halo 😄 selamat datang di Zaniedzapact Ai, ada yang ingin anda tanyakan?";
+    }
+
+    if (text.includes("kapan")) {
+        return "Didirikan 28 Januari 2025 📜";
+    }
+
+    if (text.includes("staff")) {
+        return "staff tertinggi saat ini adalah Swezen 👑";
+    }
+
+    if (text.includes("staff pertama")) {
+        return "Staff pertama Viliskian Federation 🗿";
+    }
+    
+ if (text.includes("join") || text.includes("gabung")) {
+        return "Untuk bergabung, harus terdaftar resmi. anda bisa masuk lewat link yang sudah disediakan";
+    
+    }
+
+    if (text.includes("kamu") || text.includes("anda")) {
+        return "saya adalah ai resmi website zaniedzapact, ada yang ingin anda tanyakan seputar organisasi ini?";
+    
+    }
+    if (text.includes("zaniedzapact")) {
+        return "zaniedzapact adalah sebuah organisasi pertahanan yang terbentuk oleh 3 pendiri yaitu winz union, zovaria dan Baltoslavia";
+    }
+
+    if (text.includes("musuh") || text.includes("enemy")) {
+        return "musuh Zaniedzapact adalah negara fiksi yang suka menindas negara fiksi lain, mereka jahat";
+    
+    }
+
+    if (text.includes("member") || text.includes("anggota")) {
+        return "anggota zaniedzapact saat ini ada 29";
+    
+    }
+
+     if (text.includes("owner") || text.includes("petinggi")) {
+        return "Founder/Owner Zaniedzapact ada 3 yaitu Zovaria Winz Union Dan baltoslavia";
+ 
+     }
+        
+    
+        return "🤖 Saya belum paham, bisa jelas kan lebih detail?";
+        
+    
+
+}
+
+// ENTER
+document.getElementById("input").addEventListener("keypress", function(e){
+    if(e.key === "Enter") send();
+});
+
+// START
+window.onload = () => {
+    showIntro();
+};
+
+</script>
+
+</body>
+</html>

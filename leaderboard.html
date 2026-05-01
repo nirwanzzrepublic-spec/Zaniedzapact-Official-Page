@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leaderboard Zaniedzapact</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0f172a;
+    color: white;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.bar {
+    background: #1e293b;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.bar-fill {
+    background: #22c55e;
+    height: 20px;
+    border-radius: 10px;
+}
+
+.back {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    background: #22c55e;
+    padding: 10px;
+    border-radius: 10px;
+    color: white;
+    text-decoration: none;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🏆 Leaderboard Keaktifan</h1>
+
+<div id="chart"></div>
+
+<a href="index.html" class="back">⬅ Kembali</a>
+
+<script>
+let data = JSON.parse(localStorage.getItem("leaderboard")) || {};
+
+// URUTKAN
+let sorted = Object.entries(data).sort((a,b) => b[1] - a[1]);
+
+// AMBIL TOP 5
+let top5 = sorted.slice(0,5);
+
+let chart = document.getElementById("chart");
+
+top5.forEach(([negara, score]) => {
+    let bar = document.createElement("div");
+    bar.className = "bar";
+
+    let label = document.createElement("div");
+    label.innerText = negara + " (" + score + ")";
+
+    let fill = document.createElement("div");
+    fill.className = "bar-fill";
+    fill.style.width = (score * 20) + "px"; // ukuran bar
+
+    bar.appendChild(label);
+    bar.appendChild(fill);
+
+    chart.appendChild(bar);
+});
+</script>
+
+</body>
+</html>

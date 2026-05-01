@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zaniedzapact Flappy</title>
+
+<style>
+body {
+    margin: 0;
+    background: #0f172a;
+    overflow: hidden;
+}
+
+/* CANVAS */
+canvas {
+    display: block;
+    background: #1e293b;
+}
+
+/* GAME OVER */
+#gameOverScreen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.85);
+    color: white;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: Arial;
+}
+
+/* BUTTON */
+button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #22c55e;
+    color: white;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+/* HOME BUTTON (pojok) */
+#homeBtn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #020617;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="gameCanvas"></canvas>
+
+<!-- HOME BUTTON -->
+<button id="homeBtn" onclick="goHome()">🏠 Home</button>
+
+<!-- GAME OVER -->
+<div id="gameOverScreen">
+    <h1>💀 Game Over</h1>
+    <p id="finalScore"></p>
+    <button onclick="restartGame()">Restart</button>
+    <button onclick="goHome()">🏠 Home</button>
+</div>
+
+<script>
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+// FULLSCREEN
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
+let player, pipes, score, frames;
+let gravity = 0.4;
+let jump = -7;
+let gameRunning = true;
+
+// IMAGE
+let img = new Image();
+img.src = "Zplane.png";
+
+function initGame() {
+    player = {
+        x: 100,
+        y: canvas.height / 2,
+        width: 120,   // 🔥 LEBIH GEDE LAGI
+        height: 120,
+        velocity: -5
+    };
+
+    pipes = [];
+    score = 0;
+    frames = 0;
+    gameRunning = true;
+
+    document.getElementById("gameOverScreen").style.display = "none";
+}
+
+function gameOver() {
+    gameRunning = false;
+    document.getElementById("finalScore").innerText = "Skor: " + score;
+    document.getElementById("gameOverScreen").style.display = "flex";
+}
+
+function restartGame() {
+    initGame();
+    gameLoop();
+}
+
+// 🔥 HOME BUTTON FUNCTION
+function goHome() {
+    window.location.href = "index.html";
+}
+
+function gameLoop() {
+    if (!gameRunning) return;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // PLAYER
+    player.velocity += gravity;
+    player.y += player.velocity;
+
+    ctx.drawImage(img, player.x, player.y, player.width, player.height);
+
+    // PIPES
+    if (frames % 100 === 0) {
+        let topHeight = Math.random() * (canvas.height / 2);
+        pipes.push({
+            x: canvas.width + 150,
+            top: topHeight,
+            bottom: topHeight + 250,
+            passed: false
+        });
+    }
+
+    pipes.forEach(pipe => {
+        pipe.x -= 5;
+
+        ctx.fillStyle = "#22c55e";
+        ctx.fillRect(pipe.x, 0, 100, pipe.top);
+        ctx.fillRect(pipe.x, pipe.bottom, 100, canvas.height);
+
+        // COLLISION
+        if (
+            frames > 50 &&
+            player.x < pipe.x + 100 &&
+            player.x + player.width > pipe.x &&
+            (player.y < pipe.top || player.y + player.height > pipe.bottom)
+        ) {
+            gameOver();
+        }
+
+        // SCORE
+        if (!pipe.passed && pipe.x + 100 < player.x) {
+            score++;
+            pipe.passed = true;
+        }
+    });
+
+    // SCORE
+    ctx.fillStyle = "white";
+    ctx.font = "26px Arial";
+    ctx.fillText("Score: " + score, 20, 40);
+
+    if (player.y > canvas.height) {
+        gameOver();
+    }
+
+    frames++;
+    requestAnimationFrame(gameLoop);
+}
+
+// CONTROL
+document.addEventListener("click", () => {
+    if (gameRunning) {
+        player.velocity = jump;
+    }
+});
+
+// START
+img.onload = () => {
+    initGame();
+    gameLoop();
+};
+</script>
+
+</body>
+</html>{

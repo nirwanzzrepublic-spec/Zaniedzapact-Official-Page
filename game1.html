@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tebak Anggota Zaniedzapact</title>
+
+<style>
+body {
+    background: #0f172a;
+    color: white;
+    font-family: Arial;
+    text-align: center;
+    padding: 20px;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+#question {
+    font-size: 24px;
+    margin: 20px 0;
+    letter-spacing: 3px;
+}
+
+input {
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    width: 70%;
+}
+
+button {
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: none;
+    background: #1e293b;
+    color: white;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: #334155;
+}
+
+#result {
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+a {
+    display: block;
+    margin-top: 30px;
+    color: cyan;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>🎮 Tebak Anggota Zaniedzapact</h1>
+
+<div id="question">Loading...</div>
+
+<input type="text" id="answer" placeholder="Tebak disini...">
+<br>
+<button onclick="checkAnswer()">Jawab</button>
+
+<div id="result"></div>
+
+<a href="index.html">⬅ Kembali</a>
+
+<script>
+const data = [
+"Baltoslavia",
+"Sonasia federation",
+"Historia",
+"Zovaria",
+"Farsia",
+"Jamahiriya",
+"Nazion Deklaration",
+"Vilisky",
+"Winz Union",
+"Navistasia",
+"Narmidzai",
+"Pasundan",
+"Democratic Republic of Zravilia",
+"Zarkavien",
+"Rusvilika",
+"Indoliynesia",
+"Veltrazia",
+"Trinesia",
+"Dzaki",
+"Gerdia",
+"Kyoshinkai-Rikkon-Koku",
+"Aztland VFR",
+"Javanese National Reclamation",
+"Swezen",
+"Abyssia",
+"Yelenetta Empire of Dzhovar Tamarachev Fedratican",
+"Unitarian Republic of Rulsyvia & Großskandinavien",
+"Grand Republic of Grandi",
+"Demokratic People Republic Korean Minjong",
+"Republic of Slavaria",
+"Nusia"
+];
+
+let current = 0;
+
+function maskWord(word) {
+    let result = "";
+    for (let i = 0; i < word.length; i++) {
+        if (i === 0 || i === word.length - 1 || word[i] === " ") {
+            result += word[i];
+        } else {
+            result += ".";
+        }
+    }
+    return result;
+}
+
+function loadQuestion() {
+    document.getElementById("question").innerText = maskWord(data[current]);
+    document.getElementById("answer").value = "";
+    document.getElementById("result").innerText = "";
+}
+
+function checkAnswer() {
+    let input = document.getElementById("answer").value.toLowerCase();
+    let correct = data[current].toLowerCase();
+
+    if (input === correct) {
+        document.getElementById("result").innerText = "✅ Benar!";
+        current++;
+
+        if (current >= data.length) {
+            document.getElementById("question").innerText = "🎉 Semua selesai!";
+            return;
+        }
+
+        setTimeout(loadQuestion, 1000);
+    } else {
+        document.getElementById("result").innerText = "❌ Salah, coba lagi!";
+    }
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Zaniedzapact</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0f172a;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.box {
+    background: #1e293b;
+    padding: 25px;
+    border-radius: 15px;
+    text-align: center;
+    width: 300px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: none;
+}
+
+button {
+    margin-top: 15px;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    background: #22c55e;
+    color: white;
+    font-size: 16px;
+}
+
+#msg {
+    margin-top: 10px;
+    color: #f87171;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+    <h2>🔐 Login Negara</h2>
+    <p>Masukkan nama negara anggota</p>
+
+    <input type="text" id="negara" placeholder="Contoh: baltoslavien">
+
+    <button onclick="login()">Masuk</button>
+
+    <p id="msg"></p>
+</div>
+
+<script>
+
+// DATABASE NEGARA
+const anggota = [
+"baltoslavia","sonasia","historia","zovarien","farsia",
+"jamahiriya","nazion deklaration","vilisky","winz union","navistasia",
+"narmidzai","pasundan","zravilia","zarkavien",
+"rusvilika","indoliynesia","veltrazia","trinesia","dzaki","gerdia",
+"kyoshinkai","aztland","javanese",
+"swezen","abyssia","yelenetta",
+"rulsyvia",
+"grandi","minjong",
+"slavaria","nusia"
+];
+
+function login() {
+    let input = document.getElementById("negara").value.toLowerCase().trim();
+
+    if (anggota.includes(input)) {
+
+        // AMBIL DATA LEADERBOARD
+        let data = JSON.parse(localStorage.getItem("leaderboard")) || {};
+
+        // TAMBAH LOGIN
+        data[input] = (data[input] || 0) + 1;
+
+        // SIMPAN
+        localStorage.setItem("leaderboard", JSON.stringify(data));
+
+        // LOGIN
+        localStorage.setItem("negara", input);
+
+        // MASUK LOBBY
+        window.location.href = "index.html";
+
+    } else {
+        document.getElementById("msg").innerText = "❌ Negara tidak terdaftar 🗿";
+    }
+}
+
+// AUTO SKIP LOGIN KALAU SUDAH LOGIN
+
+
+</script>
+
+</body>
+</html>

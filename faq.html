@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ Zaniedzapact</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0f172a;
+    color: white;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+/* BOX */
+.faq-box {
+    background: #1e293b;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.faq-question {
+    font-weight: bold;
+}
+
+.faq-answer {
+    display: none;
+    margin-top: 10px;
+    color: #cbd5f5;
+}
+
+/* BUTTON */
+.back-btn {
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    background: #22c55e;
+    padding: 10px;
+    border-radius: 10px;
+    color: white;
+    text-decoration: none;
+    width: 150px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>❓ FAQ Zaniedzapact</h1>
+
+<div class="faq-box" onclick="toggle(this)">
+    <div class="faq-question">Apa itu Zaniedzapact?</div>
+    <div class="faq-answer">
+        Zaniedzapact adalah organisasi aliansi yang didirikan pada tahun 2025 dengan tujuan memperkuat kerja sama dan pertahanan antar negara anggota.
+    </div>
+</div>
+
+<div class="faq-box" onclick="toggle(this)">
+    <div class="faq-question">Bagaimana cara bergabung?</div>
+    <div class="faq-answer">
+        Untuk bergabung, negara harus terdaftar sebagai anggota resmi melalui sistem yang telah ditentukan oleh Zaniedzapact.
+    </div>
+</div>
+
+<div class="faq-box" onclick="toggle(this)">
+    <div class="faq-question">Kenapa saya tidak bisa login?</div>
+    <div class="faq-answer">
+        Pastikan nama negara yang dimasukkan sudah sesuai dengan daftar anggota resmi Zaniedzapact.
+    </div>
+</div>
+
+<div class="faq-box" onclick="toggle(this)">
+    <div class="faq-question">Berapa jumlah member saat ini?</div>
+    <div class="faq-answer">
+        Saat ini Zaniedzapact memiliki 29 member aktif yang terus berkembang seiring waktu.
+    </div>
+</div>
+
+<a href="index.html" class="back-btn">⬅ Kembali</a>
+
+<script>
+function toggle(el) {
+    let answer = el.querySelector(".faq-answer");
+    answer.style.display = 
+        answer.style.display === "block" ? "none" : "block";
+}
+</script>
+
+</body>
+</html>
